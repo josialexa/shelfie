@@ -25,7 +25,7 @@ export default class Dashboard extends Component {
 
     delete = (id) => {
         axios.delete(`/api/product/${id}`)
-            .then(res => this.props.getProducts())
+            .then(res => this.getProducts())
             .catch(err => console.log('Error deleting product', err))
     }
 

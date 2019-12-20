@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import axios from 'axios'
 import defaultPic from '../../shelfie_icon.png'
 import './Form.css'
 
-export default class Form extends Component {
+class Form extends Component {
     constructor() {
         super()
         this.state = {
@@ -59,14 +59,14 @@ export default class Form extends Component {
 
     post = () => {
         axios.post('/api/product', this.state)
-            .then(res => console.log('Success'))
+            .then(res => this.props.history.push('/'))
             .catch(err => console.log('Error posting from axios', err))
         this.clear()
     }
 
     update = () => {
         axios.put(`/api/product/${this.state.id}`, this.state)
-            .then(res => console.log('Success'))
+            .then(res => this.props.history.push('/'))
             .catch(err => console.log('Error updating from axios', err))
         this.clear()
     }
@@ -100,10 +100,14 @@ export default class Form extends Component {
                     <span>Price: </span><input onChange={e => this.handleUpdate(e, 'price')} value={this.state.price}></input>
                 </div>
                 <div className='form-buttons'>
-                    <Link to='/'><button onClick={this.clear}>Cancel</button></Link>
-                    <Link to='/'><button onClick={this.state.buttonFlag ? this.update : this.post}>{this.state.buttonFlag ? 'Save Changes' : 'Add to Inventory'}</button></Link>
+                    {/* <Link to='/'><button onClick={this.clear}>Cancel</button></Link> */}
+                    <button onClick={this.clear}>Cancel</button>
+                    {/* <Link to='/'><button onClick={this.state.buttonFlag ? this.update : this.post}>{this.state.buttonFlag ? 'Save Changes' : 'Add to Inventory'}</button></Link> */}
+                    <button onClick={this.state.buttonFlag ? this.update : this.post}>{this.state.buttonFlag ? 'Save Changes' : 'Add to Inventory'}</button>
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(Form)
