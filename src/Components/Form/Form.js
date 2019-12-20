@@ -9,7 +9,7 @@ export default class Form extends Component {
         super()
         this.state = {
             name: '',
-            price: '',
+            price: 0,
             img: '',
             id: '',
             buttonFlag: false
