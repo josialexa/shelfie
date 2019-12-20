@@ -11,6 +11,7 @@ module.exports = {
             })
     },
     read: (req, res) => {
+        console.log('request made')
         const db = req.app.get('db')
         if(req.params.id) {
             db.product.get_one(req.params.id)
