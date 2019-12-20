@@ -4,7 +4,8 @@ import Header from './Components/Header/Header'
 import routes from './routes'
 // import Dashboard from './Components/Dashboard/Dashboard'
 // import Form from './Components/Form/Form'
-import './App.css';
+import './reset.css'
+import './App.css'
 
 class App extends Component {
   //PRE - ROUTING

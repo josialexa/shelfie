@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Product from '../Product/Product'
 import axios from 'axios'
+import './Dashboard.css'
 
 export default class Dashboard extends Component {
     constructor() {
@@ -30,7 +31,7 @@ export default class Dashboard extends Component {
 
     render() {
         return (
-            <div>
+            <div className='dashboard'>
                 {this.state.products.map(v => <Product key={v.id} product={v} delete={this.delete} setProduct={this.props.setProduct} />)}
             </div>
         )
