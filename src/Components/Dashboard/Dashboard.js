@@ -3,6 +3,24 @@ import Product from '../Product/Product'
 import axios from 'axios'
 
 export default class Dashboard extends Component {
+    constructor() {
+        super()
+        this.state = {
+            products: []
+        }
+    }
+
+    componentDidMount() {
+        axios.get('/api/product')
+            .then(res => this.setState({products: res.data}))
+            .catch(err => console.log('Error getting data', err))
+      }
+    
+      getProducts() {
+        axios.get('/api/product')
+          .then(res => this.setState({products: res.data}))
+          .catch(err => console.log('Error getting data', err))
+      }
 
     delete = (id) => {
         axios.delete(`/api/product/${id}`)
@@ -13,7 +31,7 @@ export default class Dashboard extends Component {
     render() {
         return (
             <div>
-                {this.props.products.map(v => <Product key={v.id} product={v} delete={this.delete} setProduct={this.props.setProduct} />)}
+                {this.state.products.map(v => <Product key={v.id} product={v} delete={this.delete} setProduct={this.props.setProduct} />)}
             </div>
         )
     }

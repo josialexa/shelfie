@@ -13,6 +13,7 @@ module.exports = {
     read: (req, res) => {
         const db = req.app.get('db')
         if(req.params.id) {
+            console.log('request received')
             db.product.get_one(req.params.id)
                 .then(result => res.status(200).json(result))
                 .catch(err => {

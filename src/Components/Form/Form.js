@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 
 export default class Form extends Component {
@@ -15,16 +16,25 @@ export default class Form extends Component {
         this.clear = this.clear.bind(this)
     }
 
+    //PRE - ROUTING VERSION
+    // componentDidUpdate(prevProps) {
+    //     if(prevProps.product != this.props.product) {
+    //         this.setState({
+    //             name: this.props.product.name,
+    //             price: this.props.product.price,
+    //             img: this.props.product.img,
+    //             id: this.props.product.id,
+    //             buttonFlag: true
+    //         })
+    //     }
+    // }
+
+    componentDidMount() {
+        if(this.props.match.params.id) this.getProduct(this.props.match.params.id)
+    }
+
     componentDidUpdate(prevProps) {
-        if(prevProps.product != this.props.product) {
-            this.setState({
-                name: this.props.product.name,
-                price: this.props.product.price,
-                img: this.props.product.img,
-                id: this.props.product.id,
-                buttonFlag: true
-            })
-        }
+        if(this.props.match.params != prevProps.match.params) this.clear()
     }
 
     handleUpdate = (e, item) => {
@@ -35,7 +45,7 @@ export default class Form extends Component {
     }
 
     clear() {
-        if(this.state.buttonFlag) this.props.setProduct()
+        // if(this.state.buttonFlag) this.props.setProduct()
         this.setState({
             name: '',
             price: '',
@@ -59,6 +69,19 @@ export default class Form extends Component {
         this.clear()
     }
 
+    getProduct = (id) => {
+        axios.get(`/api/product/${id}`)
+            .then(res => {
+                this.setState({
+                    name: res.data[0].name,
+                    price: res.data[0].price,
+                    img: res.data[0].img,
+                    id: res.data[0].id,
+                    buttonFlag: true
+                })
+            })
+    }
+
     render() {
         return (
             <div>
@@ -72,8 +95,9 @@ export default class Form extends Component {
                     <span>Price: </span><input onChange={e => this.handleUpdate(e, 'price')} value={this.state.price}></input>
                 </div>
                 <div>
-                    <button onClick={this.clear}>Cancel</button>
-                    <button onClick={this.state.buttonFlag ? this.update : this.post}>{this.state.buttonFlag ? 'Save Changes' : 'Add to Inventory'}</button>
+                    <Link to='/'><button onClick={this.clear}>Cancel</button></Link>
+                    <Link to='/'><button onClick={this.state.buttonFlag ? this.update : this.post}>{this.state.buttonFlag ? 'Save Changes' : 'Add to Inventory'}</button></Link>
+                    
                 </div>
             </div>
         )
