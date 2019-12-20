@@ -12,10 +12,12 @@ massive(DB_STRING)
     })
     .catch(err => console.log('Connection failure', err))
 
-app.post('/api/product')
-app.put('/api/product/:id')
-app.get('/api/product/:id?')
-app.delete('/api/product/:id')
+app.use(express.json())
+
+app.post('/api/product', pc.create)
+app.get('/api/product/:id?', pc.read)
+app.put('/api/product/:id', pc.update)
+app.delete('/api/product/:id', pc.delete)
 
 app.listen(4000, () => {
     console.log('Listening on port 4000')
